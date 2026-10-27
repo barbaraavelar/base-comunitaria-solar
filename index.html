@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Base Comunitária Móvel Solar – Projeto do circuito | PMMG</title>
+<meta name="description" content="Projeto de engenharia elétrica do sistema fotovoltaico da base comunitária móvel da PMMG: painel de 300–340 Wp, bateria EFB 12 V e Li-Ion 48 V.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0e2340;--navy2:#17375e;--sun:#f0a81b;--paper:#f5f6f8;--card:#fff;--ink:#1b2430;--mute:#5b6675;--line:#d9dee6;--ok:#1f8a5b;--bad:#c4402f;--blue:#2a6fb8;
+--h:'Barlow Condensed','Arial Narrow',sans-serif;--b:'IBM Plex Sans',system-ui,sans-serif;--m:'IBM Plex Mono',ui-monospace,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;font:400 16px/1.65 var(--b);color:var(--ink);background:var(--paper)}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+nav{position:sticky;top:0;z-index:10;background:var(--navy);border-bottom:3px solid var(--sun)}
+nav .in{max-width:1100px;margin:auto;padding:0 20px;display:flex;gap:6px;overflow-x:auto;white-space:nowrap}
+nav a{color:#cfd9e8;text-decoration:none;padding:14px 10px;font-size:14px;font-weight:500}
+nav a:hover{color:#fff}
+header{background:var(--navy);color:#fff;padding:64px 20px 56px;background-image:linear-gradient(115deg,transparent 60%,rgba(240,168,27,.12) 60%)}
+.wrap{max-width:1100px;margin:auto}
+header h1{font:700 clamp(40px,7vw,76px)/.95 var(--h);margin:0 0 18px;letter-spacing:.2px}
+header p{max-width:62ch;color:#cfd9e8;font-size:18px;margin:0 0 28px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.18)}
+.facts div{background:var(--navy);padding:14px 16px}
+.facts b{display:block;font:600 30px/1.1 var(--h);color:var(--sun)}
+.facts span{font-size:13px;color:#cfd9e8}
+section{padding:56px 20px;border-bottom:1px solid var(--line)}
+section:nth-of-type(even){background:#fff}
+h2{font:700 clamp(30px,4.5vw,44px)/1.05 var(--h);color:var(--navy);margin:0 0 8px}
+h3{font:600 24px/1.2 var(--h);color:var(--navy2);margin:32px 0 8px}
+.lead{color:var(--mute);max-width:70ch;margin:0 0 24px}
+p{max-width:75ch}
+table{width:100%;border-collapse:collapse;font-size:15px;margin:12px 0 8px;background:var(--card)}
+.tw{overflow-x:auto;border:1px solid var(--line)}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--navy);color:#fff;font-weight:500;font-size:14px}
+tr.tot td{font-weight:600;background:#fdf3dc}
+td.n,th.n{text-align:right;font-family:var(--m);font-size:14px;white-space:nowrap}
+.note{border-left:4px solid var(--sun);background:#fdf6e3;padding:12px 16px;margin:20px 0;max-width:75ch}
+.note.warn{border-color:var(--bad);background:#fbeceb}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:16px 0}
+.box{background:var(--card);border:1px solid var(--line);padding:18px}
+.box h4{font:600 21px var(--h);margin:0 0 6px;color:var(--navy)}
+.box p,.box ul{margin:0;font-size:15px}
+.box ul{padding-left:18px}
+code,.mono{font-family:var(--m);font-size:.9em}
+/* calculadora */
+.calc{background:var(--navy);color:#fff;padding:24px;margin:24px 0}
+.calc h3{color:var(--sun);margin-top:0}
+.ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:20px}
+.calc label{display:block;font-size:14px;color:#cfd9e8;margin-bottom:4px}
+.calc select{width:100%;padding:10px;font:inherit;border:0;background:#fff;color:var(--ink)}
+.calc .chk{display:flex;align-items:center;gap:8px;padding-top:26px}
+.calc .chk label{margin:0;color:#fff}
+.bars{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:110px 1fr 90px;gap:10px;align-items:center;font-size:14px}
+.trk{background:rgba(255,255,255,.15);height:22px}
+.fill{height:100%;transition:width .35s}
+#fg{background:var(--sun)}#fd{background:#7fb2e8}
+.res{margin-top:16px;font:600 22px var(--h);padding:10px 14px;background:rgba(255,255,255,.1)}
+.res.ok{color:#7ee2b0}.res.bad{color:#ff9f93}
+/* diagrama de blocos */
+.flow{display:grid;gap:10px;margin:20px 0}
+.fl{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.nd{flex:1 1 150px;background:var(--card);border:2px solid var(--navy);padding:10px 12px;font-size:14px}
+.nd b{display:block;font:600 18px var(--h);color:var(--navy)}
+.nd.pv{border-color:var(--sun);background:#fdf3dc}.nd.bus{background:var(--navy);color:#fff}.nd.bus b{color:var(--sun)}
+.nd.bt{border-color:var(--ok)}
+.ar{align-self:center;font:600 22px var(--h);color:var(--mute)}
+figure{margin:24px 0;background:#fff;border:1px solid var(--line);padding:10px}
+figure img{width:100%;height:auto;display:block}
+figcaption{font-size:14px;color:var(--mute);padding:8px 4px 2px}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:99px;color:#fff;font-weight:500}
+.t1{background:var(--ok)}.t2{background:var(--blue)}.t3{background:var(--bad)}
+.steps{counter-reset:s;list-style:none;padding:0;max-width:75ch}
+.steps li{counter-increment:s;position:relative;padding:0 0 14px 44px}
+.steps li:before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;background:var(--navy);color:var(--sun);font:600 18px/30px var(--h);text-align:center}
+footer{background:var(--navy);color:#cfd9e8;padding:32px 20px;font-size:14px}
+@media(max-width:600px){.row{grid-template-columns:80px 1fr 70px}section{padding:40px 16px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<nav aria-label="Seções"><div class="in">
+<a href="#premissas">Premissas</a><a href="#balanco">Balanço de energia</a><a href="#arquitetura">Arquitetura</a><a href="#componentes">Componentes</a><a href="#controle">Carga e descarga</a><a href="#termica">Gestão térmica</a><a href="#regioes">Regiões de MG</a><a href="#custos">Custos</a><a href="#desenhos">Desenhos</a><a href="#resumo">Resumo</a>
+</div></nav>
+
+<header><div class="wrap">
+<h1>Base Comunitária Móvel Solar</h1>
+<p>Projeto do circuito elétrico da base comunitária móvel da PMMG: um painel solar de cerca de 1,5 m², bateria EFB de 12 V e bateria Li-Ion de 48 V, operando das 14h às 00h em qualquer região de Minas Gerais.</p>
+<div class="facts">
+<div><b>300–340 Wp</b><span>painel de ≈ 1,5 m²</span></div>
+<div><b>≈ 1,29 kWh</b><span>demanda em 10 h</span></div>
+<div><b>93–97 %</b><span>eficiência do conjunto</span></div>
+<div><b>R$ 2,4–4 mil</b><span>custo estimado</span></div>
+</div></div></header>
+
+<section id="premissas"><div class="wrap">
+<h2>1. Premissas e condições de contorno</h2>
+<p class="lead">A tabela de equipamentos veio sem potências, então foram adotados valores típicos. Troque pelos valores de placa e refaça o balanço da seção 2.</p>
+<div class="tw"><table>
+<tr><th>Condição</th><th>Valor adotado</th></tr>
+<tr><td>Local</td><td>Todo o estado de Minas Gerais, latitude ≈ 14° S a 23° S. Placa horizontal no teto, quase ótima de outubro a março; no inverno rende menos que uma placa inclinada.</td></tr>
+<tr><td>Janela de operação</td><td>14h–00h (10 h). Sol útil até ≈ 17h20 (inverno) a ≈ 18h30 (verão); depois, só bateria.</td></tr>
+<tr><td>Pré-condição</td><td>Veículo estacionado ao sol antes das 14h, com baterias carregadas pela manhã e início da tarde.</td></tr>
+<tr><td>Painel</td><td>≈ 1,5 m² com eficiência de 20 a 22,5 %, ou seja, 300 a 340 Wp.</td></tr>
+<tr><td>Temperatura</td><td>Células a 65–70 °C causam perda de ≈ 14–17 % de potência (calor do Norte de Minas e do Vale do Jequitinhonha). Mínimas de 0 a 5 °C no Sul de Minas e nas serras, no inverno.</td></tr>
+<tr><td>Limites das baterias</td><td>EFB 12 V: 55 °C. Li-Ion 48 V: 58 °C.</td></tr>
+<tr><td>Reserva de partida</td><td>Preservar a EFB para dar partida no motor (descarga máxima ≈ 30 %).</td></tr>
+</table></div>
+<div class="note"><b>Dado relevante:</b> a corrente de recarga que as baterias aceitam (50 A e 250 A) não é o limite. O painel entrega só 6 A no barramento de 48 V e cerca de 20 A no de 12 V, ou seja, ≈ 0,3 C. O limite real é a energia solar disponível e a temperatura.</div>
+</div></section>
+
+<section id="balanco"><div class="wrap">
+<h2>2. Balanço de energia (10 h)</h2>
+<p class="lead">Foram escolhidas cargas em 12 V CC sempre que possível, para evitar perdas de inversor.</p>
+<h3>Demanda</h3>
+<div class="tw"><table>
+<tr><th>Carga</th><th class="n">Potência média</th><th class="n">Tempo</th><th class="n">Energia</th></tr>
+<tr><td>2 notebooks (CA)</td><td class="n">2 × 22 W</td><td class="n">10 h</td><td class="n">440 Wh</td></tr>
+<tr><td>Tomadas e carregadores de rádio (CA)</td><td class="n">15 W</td><td class="n">10 h</td><td class="n">150 Wh</td></tr>
+<tr><td>Frigobar compressor 12 V, pré-resfriado</td><td class="n">12 W</td><td class="n">10 h</td><td class="n">120 Wh</td></tr>
+<tr><td>Ventilador 12 V BLDC com termostato</td><td class="n">10 W</td><td class="n">6 h</td><td class="n">60 Wh</td></tr>
+<tr><td>6 câmeras 12 V</td><td class="n">6 × 3 W</td><td class="n">10 h</td><td class="n">180 Wh</td></tr>
+<tr><td>NVR</td><td class="n">10 W</td><td class="n">10 h</td><td class="n">100 Wh</td></tr>
+<tr><td>TV 12 V</td><td class="n">15 W</td><td class="n">4 h</td><td class="n">60 Wh</td></tr>
+<tr><td>Modem e roteador</td><td class="n">8 W</td><td class="n">10 h</td><td class="n">80 Wh</td></tr>
+<tr><td>Cargas CA (590 Wh), inversor de 90 %</td><td></td><td></td><td class="n">≈ 655 Wh</td></tr>
+<tr><td>Cargas CC (600 Wh), conversor de 95 %</td><td></td><td></td><td class="n">≈ 632 Wh</td></tr>
+<tr class="tot"><td>Total</td><td></td><td></td><td class="n">≈ 1,29 kWh</td></tr>
+</table></div>
+
+<h3>Oferta</h3>
+<p>A geração diária depende da região e da época (rendimento do sistema de 0,78; valores aproximados). Confirme a insolação do município no Atlas Brasileiro de Energia Solar ou no SunData/CRESESB.</p>
+<div class="tw"><table>
+<tr><th>Cenário</th><th class="n">Sol pleno equivalente</th><th class="n">300 Wp</th><th class="n">340 Wp</th></tr>
+<tr><td>Pior mês (inverno ou chuvas)</td><td class="n">4,5 h/dia</td><td class="n">1,05 kWh</td><td class="n">1,19 kWh</td></tr>
+<tr><td>Média anual</td><td class="n">5,2 h/dia</td><td class="n">1,22 kWh</td><td class="n">1,38 kWh</td></tr>
+<tr><td>Melhor condição (Norte de Minas, seca)</td><td class="n">5,8 h/dia</td><td class="n">1,36 kWh</td><td class="n">1,54 kWh</td></tr>
+</table></div>
+<div class="grid">
+<div class="box"><h4>Armazenamento utilizável</h4><p>Li-Ion 856 Wh × 80 % ≈ 685 Wh, mais EFB 864 Wh × 30 % ≈ 260 Wh. Total ≈ <b>945 Wh</b>.</p></div>
+<div class="box"><h4>Sol direto após as 14h</h4><p>≈ 0,3 a 0,45 kWh, conforme a época do ano.</p></div>
+</div>
+
+<div class="calc" role="group" aria-label="Simulador do balanço de energia">
+<h3>Simulador: a geração fecha a conta?</h3>
+<div class="ctl">
+<div><label for="wp">Potência do painel</label><select id="wp"><option value="300">300 Wp</option><option value="340" selected>340 Wp</option></select></div>
+<div><label for="sc">Cenário de insolação</label><select id="sc"><option value="4.5">Pior mês (4,5 h)</option><option value="5.2" selected>Média anual (5,2 h)</option><option value="5.8">Melhor condição (5,8 h)</option></select></div>
+<div class="chk"><input type="checkbox" id="eco"><label for="eco">Modo ECO (sem TV, ventilador mínimo)</label></div>
+</div>
+<div class="bars">
+<div class="row"><span>Geração</span><div class="trk"><div class="fill" id="fg"></div></div><span class="mono" id="vg"></span></div>
+<div class="row"><span>Demanda</span><div class="trk"><div class="fill" id="fd"></div></div><span class="mono" id="vd"></span></div>
+</div>
+<div class="res" id="rs" aria-live="polite"></div>
+</div>
+
+<div class="note"><b>Conclusão:</b> na média anual, 300 Wp fica com déficit de ≈ 5 % e 340 Wp (módulo de alta eficiência, ≈ 22,5 %, TOPCon ou IBC) fecha com folga de ≈ 7 %. No pior mês de inverno nenhum dos dois cobre os 1,29 kWh (déficit de ≈ 19 % e ≈ 8 %). Ali é preciso o modo ECO (sem TV e com ventilador mínimo, demanda ≈ 1,16 kWh) ou apoio do alternador por conversor CC-CC. Como o projeto deve valer em todo o estado, o módulo de <b>340 Wp</b> é o mais indicado; o custo extra é de algumas centenas de reais.</div>
+<div class="note warn">Se o frigobar e o ventilador forem mantidos em CA, a demanda sobe cerca de 0,3 kWh/dia e o balanço não fecha sem gestão de cargas.</div>
+</div></section>
+
+<section id="arquitetura"><div class="wrap">
+<h2>3. Ideia central: barramento de 48 V como espinha dorsal</h2>
+<p class="lead">Em vez de dois controladores independentes, a proposta usa um único estágio MPPT e um conversor em cascata.</p>
+<div class="flow" role="img" aria-label="Diagrama de blocos: painel, MPPT, barramento de 48 V, Li-Ion, inversor, buck e EFB com cargas CC">
+<div class="fl"><div class="nd pv"><b>Painel 2 × ~160 Wp em série</b>Voc ≈ 45 V · Vmp ≈ 37 V</div><span class="ar">→</span><div class="nd"><b>Fusível 15 A</b>DC, mín. 60 V</div><span class="ar">→</span><div class="nd"><b>MPPT buck-boost 4 chaves</b>96–98 %</div><span class="ar">→</span><div class="nd bus"><b>Barramento 48 V</b>espinha dorsal</div></div>
+<div class="fl"><div class="nd bt"><b>Bateria Li-Ion 48 V</b>com BMS · 856 Wh</div><div class="nd"><b>Inversor 48 V → 127 V</b>500 VA · 4 tomadas · modo eco</div><div class="nd"><b>Buck síncrono 48 → 13,8 V</b>CC/CV · limite 20 A</div></div>
+<div class="fl"><div class="nd bus"><b>Barramento 12 V</b>fusível 30 A</div><span class="ar">→</span><div class="nd bt"><b>Bateria EFB 12 V</b>864 Wh</div><div class="nd"><b>Cargas CC</b>câmeras, NVR, modem, TV, frigobar, ventilador</div></div>
+<div class="nd"><b>MCU (STM32 / ESP32)</b>MPPT, prioridades, temperatura e corte de cargas</div>
+</div>
+<h3>Por que esta arquitetura</h3>
+<ul class="steps">
+<li><b>Um só MPPT e um conversor menor.</b> Fica mais barato e mais fácil de controlar do que dois MPPTs.</li>
+<li><b>Carga simultânea natural.</b> O buck puxa do barramento o que a EFB precisa e o restante vai para a Li-Ion. A prioridade é ajustada pelo limite de corrente do buck.</li>
+<li><b>Painel em 2 módulos em série.</b> A tensão em circuito aberto a frio é de ≈ 49 V (a −5 °C, geada no Sul de Minas e nas serras), abaixo de 60 V (SELV). Isso simplifica a segurança e dispensa desligamento rápido.</li>
+<li><b>Buck-boost de 4 chaves.</b> A Vmp do painel (31–41 V) cruza a tensão da Li-Ion (36–50,4 V) conforme temperatura e estado de carga. Um boost simples não funcionaria nesses momentos.</li>
+<li><b>Custo da cascata.</b> O caminho para a EFB perde ≈ 4 % a mais, o que equivale a ≈ 20 Wh/dia. Isso compensa a economia de um segundo MPPT.</li>
+</ul>
+</div></section>
+
+<section id="componentes"><div class="wrap">
+<h2>4. Dimensionamento dos componentes</h2>
+<h3>Painel (cada módulo)</h3>
+<div class="grid">
+<div class="box"><h4>Elétrico</h4><p>Voc 22,5 V · Vmp 18,6 V<br>Imp 8,1 A · Isc 8,6 A</p></div>
+<div class="box"><h4>Dois em série</h4><p>Voc 45 V (≈ 49 V a −5 °C)<br>Vmp 37 V (≈ 31 V a 70 °C, ≈ 30 V a 75 °C no Norte de Minas)</p></div>
+</div>
+<h3>Estágio MPPT</h3>
+<p>Controlador tipo LM5176 ou LT8390, fsw = 100 kHz.</p>
+<div class="tw"><table>
+<tr><th>Item</th><th>Especificação</th></tr>
+<tr><td>Corrente de entrada de projeto</td><td>9,5 A</td></tr>
+<tr><td>Pior caso em boost</td><td>Vin = 30,8 V, Vout = 49,2 V, D = 0,374</td></tr>
+<tr><td>Indutor</td><td>L = Vin·D / (fsw·ΔI) = 30,8 × 0,374 / (10⁵ × 2,85) ≈ 40 µH → <b>47 µH</b>, Isat ≥ 15 A, DCR ≤ 8 mΩ</td></tr>
+<tr><td>MOSFETs</td><td>4 × 100 V, Rds(on) ≤ 10 mΩ</td></tr>
+<tr><td>Capacitores</td><td>Entrada 2 × 100 µF/63 V + cerâmico; saída 100 µF/100 V + cerâmico</td></tr>
+<tr><td>Eficiência esperada</td><td>96–98 %</td></tr>
+</table></div>
+<h3>Buck 48 → 13,8 V</h3>
+<div class="tw"><table>
+<tr><th>Item</th><th>Especificação</th></tr>
+<tr><td>Razão cíclica</td><td>D ≈ 0,29</td></tr>
+<tr><td>Indutor</td><td>L = (48 − 13,8) × 0,288 / (10⁵ × 6 A) ≈ 16 µH → <b>22 µH</b>, Isat ≥ 28 A</td></tr>
+<tr><td>Saída</td><td>2 × 220 µF/25 V low-ESR</td></tr>
+<tr><td>MOSFETs</td><td>80–100 V, ≤ 5 mΩ, corrente máxima 25 A, limite programado em 20 A</td></tr>
+<tr><td>Opção de menor custo</td><td>Módulo comercial 48 → 12 V CC/CV de 25–30 A, ajustável</td></tr>
+</table></div>
+<h3>Inversor</h3>
+<p>48 V → 127 V senoidal pura, 500 VA, eficiência ≥ 92 %, consumo em vazio ≤ 5 W com modo eco.</p>
+<h3>Proteções</h3>
+<div class="tw"><table>
+<tr><th>Ponto</th><th>Proteção</th></tr>
+<tr><td>Painel → MPPT</td><td>Fusível 15 A DC (mín. 60 V), cabo solar 4 mm²</td></tr>
+<tr><td>Saída do MPPT</td><td>Fusível 15 A</td></tr>
+<tr><td>Entrada do buck</td><td>Fusível 15 A</td></tr>
+<tr><td>Inversor</td><td>Fusível 25 A, cabo 4–6 mm²</td></tr>
+<tr><td>Barramento 12 V</td><td>Fusível 30 A, cabo 6 mm²</td></tr>
+<tr><td>Geral</td><td>Seccionadora DC, DPS DC 60 V, queda de tensão &lt; 2 %</td></tr>
+</table></div>
+<div class="note">Instale contator ou ideal-diode para isolar o sistema quando o motor estiver ligado (alternador &gt; 13,9 V). A integração com o BMS e a ECU do veículo deve ser validada com o fabricante.</div>
+</div></section>
+
+<section id="controle"><div class="wrap">
+<h2>5. Estratégia de carga e descarga</h2>
+<p class="lead">Lógica automática, executada pelo microcontrolador.</p>
+<div class="grid">
+<div class="box"><h4>Com sol</h4>
+<ul>
+<li>As cargas são atendidas primeiro.</li>
+<li>EFB em carga CC/CV: absorção em 13,8 V (a 25 °C) com compensação de −18 mV/°C, corrente máxima de 15 A, depois float em 13,3 V.</li>
+<li>O excedente vai para a Li-Ion: CC até 49,2 V (4,10 V/célula, para preservar a vida útil) e CV até corrente &lt; 1 A.</li>
+</ul></div>
+<div class="box"><h4>Sem sol</h4>
+<ul>
+<li>A Li-Ion alimenta o inversor e mantém o barramento de 12 V via buck, protegendo a EFB.</li>
+<li>A EFB só é usada até ≈ 12,4 V em repouso (≈ 70 % de carga, reserva de partida).</li>
+<li>A Li-Ion tem corte em 39,6 V (3,3 V/célula).</li>
+</ul></div>
+</div>
+<h3>Priorização de cargas (corte progressivo por estado de carga)</h3>
+<div class="grid">
+<div class="box"><span class="tag t1">Prioridade 1</span><p>Rádios, modem e roteador, NVR e câmeras.</p></div>
+<div class="box"><span class="tag t2">Prioridade 2</span><p>Notebooks e tomadas.</p></div>
+<div class="box"><span class="tag t3">Prioridade 3 (cortada primeiro)</span><p>TV, ventilador e frigobar.</p></div>
+</div>
+</div></section>
+
+<section id="termica"><div class="wrap">
+<h2>6. Gestão térmica</h2>
+<ul class="steps">
+<li><b>Painel elevado 3–5 cm do teto, com vão ventilado.</b> Funciona como para-sol do veículo. Reduz a temperatura da célula (ganho de ≈ 3–4 % de energia) e a carga térmica sobre o teto e o compartimento das baterias (a quantificar em ensaio).</li>
+<li><b>Sensores NTC</b> em cada bateria e no dissipador dos conversores.</li>
+<li><b>Derating.</b> Reduzir a carga a partir de 40 °C, interromper a carga a 50 °C e desligar cargas e conversores a ≈ 53 °C na EFB e ≈ 56 °C na Li-Ion. Isso mantém folga de 2–3 °C abaixo dos limites. No frio, inibir a carga da Li-Ion abaixo de 0 °C e reduzi-la abaixo de 10 °C.</li>
+<li><b>Ventilação do compartimento.</b> O ventilador de 12 V pode ventilar o compartimento das baterias por termostato.</li>
+</ul>
+</div></section>
+
+<section id="regioes"><div class="wrap">
+<h2>6.1 Adaptação às regiões de Minas Gerais</h2>
+<p class="lead">O circuito é o mesmo em todo o estado; muda o que mais pesa em cada região. Avaliação qualitativa, a confirmar no município de operação.</p>
+<div class="tw"><table>
+<tr><th>Região</th><th>Condição típica</th><th>Ajuste</th></tr>
+<tr><td>Norte de Minas e Vale do Jequitinhonha</td><td>Mais sol e calor (células ≈ 75 °C), poeira na seca</td><td>Priorizar o vão ventilado e o derating térmico; limpar o painel a cada 2–4 semanas na seca</td></tr>
+<tr><td>Triângulo Mineiro e Alto Paranaíba</td><td>Sol forte, chuvas de verão (nov–mar)</td><td>Módulo de 340 Wp; modo ECO em dias nublados seguidos</td></tr>
+<tr><td>Central, Zona da Mata e Leste</td><td>Intermediária, com nebulosidade no verão</td><td>Dimensionamento de referência deste documento</td></tr>
+<tr><td>Sul de Minas e Mantiqueira</td><td>Frio e geada no inverno, mais nebulosidade</td><td>Inibir carga da Li-Ion abaixo de 0 °C; conferir Voc a frio (≈ 49 V); prever apoio do alternador no inverno</td></tr>
+</table></div>
+</div></section>
+
+<section id="custos"><div class="wrap">
+<h2>7. Comparação e custo estimado</h2>
+<div class="tw"><table>
+<tr><th>Alternativa</th><th>Custo</th><th>Eficiência</th><th>Observação</th></tr>
+<tr><td>PWM + relés</td><td>Menor</td><td>Baixa (perde 20–30 %)</td><td>Inviável para a Li-Ion, pois Vpv &lt; Vbat</td></tr>
+<tr><td>2 MPPTs comerciais</td><td>Maior (≈ R$ 2–3 mil a mais)</td><td>Alta</td><td>Painel dividido, mais complexo</td></tr>
+<tr class="tot"><td>Proposta (MPPT 4 chaves + buck)</td><td>Intermediário</td><td>Alta (≈ 93–97 %)</td><td>Melhor custo-benefício</td></tr>
+</table></div>
+<h3>Estimativa de custo (R$, referência; é preciso cotar)</h3>
+<div class="tw"><table>
+<tr><th>Item</th><th class="n">Faixa (R$)</th></tr>
+<tr><td>Módulos solares 300–340 Wp</td><td class="n">700–1.100</td></tr>
+<tr><td>Estrutura com vão ventilado</td><td class="n">200–300</td></tr>
+<tr><td>MPPT buck-boost 350 W</td><td class="n">350–600</td></tr>
+<tr><td>Buck 48 → 13,8 V</td><td class="n">200–400</td></tr>
+<tr><td>Inversor 48 V 500 VA</td><td class="n">500–900</td></tr>
+<tr><td>MCU, sensores e display</td><td class="n">150–250</td></tr>
+<tr><td>Proteções, cabos e conectores</td><td class="n">300–450</td></tr>
+<tr class="tot"><td>Total (sem trocar os equipamentos)</td><td class="n">≈ 2.400 a 4.000</td></tr>
+</table></div>
+<p>Trocar frigobar, ventilador e TV por versões CC é um custo à parte (o frigobar 12 V costuma ser o mais caro). O ganho é de ≈ 0,3 kWh/dia, o que evitaria painel e bateria extras.</p>
+</div></section>
+
+<section id="desenhos"><div class="wrap">
+<h2>Desenhos do projeto</h2>
+<figure>
+<img src="assets/diagrama-eletrico.jpg" alt="Diagrama elétrico do sistema fotovoltaico: painel de 340 Wp, disjuntor CC 15 A, controlador MPPT 40 A, conversor DC-DC 48 V para 12 V, bateria EFB 12 V 72 Ah, bateria Li-Ion 48 V 19,5 Ah, fusíveis e distribuição das cargas" loading="lazy">
+<figcaption><b>Figura 1.</b> Diagrama elétrico com módulos comerciais: controlador MPPT de 40 A, conversor DC-DC 48 → 12 V de 30 A, fusíveis de 30 A (EFB) e 10 A (Li-Ion), disjuntor CC de 15 A e aterramento no chassi do veículo. É uma versão de implementação rápida da mesma arquitetura.</figcaption>
+</figure>
+<figure>
+<img src="assets/suporte-placa.jpg" alt="Desenho técnico do suporte inclinável da placa solar no teto da viatura, com 0 grau no verão e 20 graus voltado ao Norte no inverno" loading="lazy">
+<figcaption><b>Figura 2.</b> Suporte inclinável da placa (vista lateral em corte, escala 1:10): 0° no verão (horizontal) e 20° voltado ao Norte no inverno, vão ventilado de 30–50 mm, estrutura de alumínio anodizado, eixo de dobradiça em inox e fixação ao teto com parafuso M8, arruela e porca. A inclinação de inverno recupera parte da perda citada nas premissas.</figcaption>
+</figure>
+</div></section>
+
+<section id="resumo"><div class="wrap">
+<h2>8. Resumo das respostas ao enunciado</h2>
+<div class="grid">
+<div class="box"><h4>Painel</h4><p>1,5 m², 2 módulos em série, 300–340 Wp (preferir ≥ 21,5 % de eficiência).</p></div>
+<div class="box"><h4>Circuito</h4><p>MPPT buck-boost 4 chaves, barramento de 48 V, buck 48 → 13,8 V e inversor para as tomadas.</p></div>
+<div class="box"><h4>Carga automática</h4><p>Simultânea por prioridade (EFB primeiro, excedente para a Li-Ion), com perfis CC/CV próprios.</p></div>
+<div class="box"><h4>Eficiência</h4><p>≈ 93–97 % no conjunto, com cargas CC nativas e painel ventilado.</p></div>
+<div class="box"><h4>Menor custo</h4><p>Um só estágio MPPT e conversores simples, a partir de ≈ R$ 2,4 mil.</p></div>
+<div class="box"><h4>Condições de contorno</h4><p>55 °C e 58 °C com derating, correntes de recarga muito abaixo do limite, reserva de partida, SELV e o clima de todo o estado.</p></div>
+</div>
+</div></section>
+
+<footer><div class="wrap">
+<p>Os valores de potência dos equipamentos são estimativas. Com as potências reais, o balanço e o dimensionamento devem ser recalculados. Custos são referências e precisam ser cotados.</p>
+<p>Proposta de engenharia elétrica para a base comunitária móvel da PMMG.</p>
+</div></footer>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+function up(){
+var wp=+$('wp').value,h=+$('sc').value,eco=$('eco').checked;
+var g=wp*h*0.78/1000,d=eco?1.16:1.29,max=Math.max(g,d,1.6);
+$('fg').style.width=(g/max*100)+'%';$('fd').style.width=(d/max*100)+'%';
+$('vg').textContent=g.toFixed(2).replace('.',',')+' kWh';
+$('vd').textContent=d.toFixed(2).replace('.',',')+' kWh';
+var p=(g/d-1)*100,r=$('rs'),s=Math.abs(p).toFixed(0);
+if(p>=0){r.className='res ok';r.textContent='Folga de ≈ '+s+' %: a geração cobre a demanda.'}
+else{r.className='res bad';r.textContent='Déficit de ≈ '+s+' %: use modo ECO, gestão de cargas ou apoio do alternador.'}
+}
+['wp','sc','eco'].forEach(function(i){$(i).addEventListener('change',up)});up();
+})();
+</script>
+</body>
+</html>
